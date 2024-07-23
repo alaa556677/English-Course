@@ -15,12 +15,12 @@ class HomeCubit extends Cubit<HomeStates> {
   bool isBottomSheetShown = true;
   List <Map> sentenceList = [];
   List <Map> wordsList = [];
-
+////////////////////////////////////////////////////////////////////////////////
   changeIndex(int index){
     currentNumber = index;
     emit(ChangeIndexState());
   }
-
+////////////////////////////////////////////////////////////////////////////////
   insertData(String text, String translate, String inputType) async {
     emit(InsertDataLoading());
     int response = 0;
@@ -43,7 +43,7 @@ class HomeCubit extends Cubit<HomeStates> {
       emit(InsertDataError());
     }
   }
-
+////////////////////////////////////////////////////////////////////////////////
   readData(int index) async {
     try{
       emit(ReadDataLoading());
@@ -58,7 +58,25 @@ class HomeCubit extends Cubit<HomeStates> {
       debugPrint("$e");
       emit(ReadDataError());
     }
-
   }
-
+////////////////////////////////////////////////////////////////////////////////
+  List <Map> searchSentenceData = [];
+  searchForSentence (String text) {
+    emit(SearchStarting());
+    searchSentenceData.clear();
+    if(text.isNotEmpty){
+      searchSentenceData.addAll(sentenceList.where((element) => element['sentence'].toLowerCase().contains(text.toLowerCase())));
+    }
+    emit(SearchEndState());
+  }
+////////////////////////////////////////////////////////////////////////////////
+  List <Map> searchWordData = [];
+  searchForWord (String text) {
+    emit(SearchStarting());
+    searchWordData.clear();
+    if(text.isNotEmpty){
+      searchWordData.addAll(wordsList.where((element) => element['word'].toLowerCase().contains(text.toLowerCase())));
+    }
+    emit(SearchEndState());
+  }
 }

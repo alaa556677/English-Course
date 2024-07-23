@@ -11,3 +11,6 @@ class InsertDataError extends HomeStates{}
 class ReadDataLoading extends HomeStates{}
 class ReadDataSuccess extends HomeStates{}
 class ReadDataError extends HomeStates{}
+
+class SearchStarting extends HomeStates{}
+class SearchEndState extends HomeStates{}

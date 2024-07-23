@@ -66,10 +66,8 @@ class ChatTextFormField extends StatelessWidget{
         ),
         SizedBox(height: 10.h,),
         TextFormField(
-          style: TextStyle(
-            color: AppColors.blackColor,
-            fontSize: 16.sp,
-            fontWeight: FontWeight.w300,
+          style: Theme.of(context).textTheme.labelMedium!.copyWith(
+            color: AppColors.blackColor
           ),
           validator: validator,
           obscureText: obscureText,
