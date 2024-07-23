@@ -31,7 +31,8 @@ class _CardSentenceWidgetState extends State<CardSentenceWidget> {
           DefaultText(
             text: widget.englishText,
             themeStyle: Theme.of(context).textTheme.labelMedium!.copyWith(
-              color: AppColors.blackColor
+              color: AppColors.blackColor,
+              fontWeight: FontWeight.w600
             ),
           ),
           SizedBox(height: 12.h,),
@@ -43,6 +44,7 @@ class _CardSentenceWidgetState extends State<CardSentenceWidget> {
                   text: widget.arabicText,
                   themeStyle: Theme.of(context).textTheme.labelMedium!.copyWith(
                     color: AppColors.blackColor,
+                    fontWeight: FontWeight.w600
                   ),
                 ),
               ],

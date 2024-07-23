@@ -14,3 +14,19 @@ class ReadDataError extends HomeStates{}
 
 class SearchStarting extends HomeStates{}
 class SearchEndState extends HomeStates{}
+
+class InsertSentenceOnlineLoading extends HomeStates{}
+class InsertSentenceOnlineSuccess extends HomeStates{}
+class InsertSentenceOnlineError extends HomeStates{}
+
+class InsertWordOnlineLoading extends HomeStates{}
+class InsertWordOnlineSuccess extends HomeStates{}
+class InsertWordOnlineError extends HomeStates{}
+
+class GetSentencesOnlineLoading extends HomeStates{}
+class GetSentencesOnlineSuccess extends HomeStates{}
+class GetSentencesOnlineError extends HomeStates{}
+
+class GetWordsOnlineLoading extends HomeStates{}
+class GetWordsOnlineSuccess extends HomeStates{}
+class GetWordsOnlineError extends HomeStates{}

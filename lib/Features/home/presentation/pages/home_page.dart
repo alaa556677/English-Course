@@ -24,6 +24,13 @@ class _HomePageState extends State<HomePage> {
   var inputType = "word";
 
   @override
+  void dispose() {
+    words.dispose();
+    translate.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocConsumer <HomeCubit, HomeStates> (
       listener: (context, state){},
@@ -77,7 +84,7 @@ class _HomePageState extends State<HomePage> {
                             DefaultText(
                               text: "Input Type",
                               themeStyle: Theme.of(context).textTheme.labelMedium!.copyWith(
-                                  color: AppColors.blackColor
+                                  color: AppColors.blackColor,
                               ),
                             ),
                             SizedBox(height: 10.h,),
@@ -116,11 +123,22 @@ class _HomePageState extends State<HomePage> {
                   },
                 )).closed.then((value){
                   setState(() {HomeCubit.instance.isBottomSheetShown = true;});
+                  words.clear();
+                  translate.clear();
                 });
                 setState(() {HomeCubit.instance.isBottomSheetShown = false;});
+                words.clear();
+                translate.clear();
               }else{
-                HomeCubit.instance.insertData(words.text, translate.text, inputType);
+                if(inputType == "word"){
+                  HomeCubit.instance.insertWordOnline(words.text, translate.text);
+                }else if (inputType == "sentence"){
+                  HomeCubit.instance.insertSentenceOnline(words.text, translate.text);
+                }
+                // HomeCubit.instance.insertData(words.text, translate.text, inputType);
                 Navigator.pop(context);
+                words.clear();
+                translate.clear();
               }
             },
             backgroundColor: AppColors.blackColor.withOpacity(.7),

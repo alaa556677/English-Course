@@ -31,7 +31,8 @@ class _CardWordWidgetState extends State<CardWordWidget> {
           DefaultText(
             text: widget.englishText,
             themeStyle: Theme.of(context).textTheme.labelMedium!.copyWith(
-                color: AppColors.blackColor
+                color: AppColors.blackColor,
+                fontWeight: FontWeight.w600
             ),
           ),
           Directionality(
@@ -40,6 +41,7 @@ class _CardWordWidgetState extends State<CardWordWidget> {
               text: widget.arabicText,
               themeStyle: Theme.of(context).textTheme.labelMedium!.copyWith(
                 color: AppColors.blackColor,
+                fontWeight: FontWeight.w600
               ),
             ),
           ),

@@ -16,7 +16,7 @@ class SqlDB{
 
   initialDatabase () async {
     String databasePath = await getDatabasesPath ();
-    String path = join (databasePath, 'notes.db');
+    String path = join (databasePath, 'english.db');
     Database database = await openDatabase (
         path, onCreate: _onCreate,
         version: 1,
@@ -72,7 +72,7 @@ class SqlDB{
 
   myDeleteDatabase () async {
     String databasePath = await getDatabasesPath ();
-    String path = join (databasePath, 'notes.db');
+    String path = join (databasePath, 'english.db');
     await deleteDatabase (path);
   }
 

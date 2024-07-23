@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "397954976863",
+    "project_id": "english-course-84669",
+    "storage_bucket": "english-course-84669.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:397954976863:android:aa76ba220346cb45679fea",
+        "android_client_info": {
+          "package_name": "com.example.english"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDoQss1Esl6YcDq2jw8-RkxElw8QtE8pvw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
