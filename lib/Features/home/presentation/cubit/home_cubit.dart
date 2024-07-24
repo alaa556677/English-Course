@@ -129,6 +129,7 @@ class HomeCubit extends Cubit<HomeStates> {
       for(var i in value.docs){
         sentencesDataOnlineList.add(SentenceDataEntity.fromJson(i.data()));
       }
+      sentencesDataOnlineList.sort((a, b) => a.sentence.compareTo(b.sentence));
       // if(sentencesDataOnlineList.isNotEmpty){
       //   insertData("sentence");
       // }
@@ -147,6 +148,7 @@ class HomeCubit extends Cubit<HomeStates> {
       for(var i in value.docs){
         wordsDataOnlineList.add(WordsDataEntity.fromJson(i.data()));
       }
+      wordsDataOnlineList.sort((a, b) => a.word.compareTo(b.word));
       emit(GetWordsOnlineSuccess());
     }).catchError((error){
       debugPrint('error ${error.toString()}');
