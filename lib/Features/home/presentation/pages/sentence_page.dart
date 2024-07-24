@@ -1,5 +1,6 @@
 import 'package:english/Features/home/presentation/cubit/home_cubit.dart';
 import 'package:english/Features/home/presentation/pages/widgets/card_sentence_widget.dart';
+import 'package:english/core/widgets/default_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -41,6 +42,21 @@ class _SentencePageState extends State<SentencePage> {
               onChanged: (value){
                 HomeCubit.instance.searchForSentenceOnline(searchController.text);
               },
+            ),
+            SizedBox(height: 14.h,),
+            Row(
+              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                DefaultText(
+                  text: "Count ",
+                  themeStyle: Theme.of(context).textTheme.labelMedium,
+                ),
+                SizedBox(width: 4.w,),
+                DefaultText(
+                  text: HomeCubit.instance.searchSentenceListOnline.isNotEmpty ? "${HomeCubit.instance.searchSentenceListOnline.length}" : "${HomeCubit.instance.sentencesDataOnlineList.length}",
+                  themeStyle: Theme.of(context).textTheme.labelMedium,
+                ),
+              ],
             ),
             SizedBox(height: 14.h,),
             Expanded(

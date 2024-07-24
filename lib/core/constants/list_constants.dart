@@ -1,3 +1,4 @@
+import 'package:english/Features/home/presentation/cubit/home_cubit.dart';
 import 'package:flutter/material.dart';
 import '../../Features/home/presentation/pages/sentence_page.dart';
 import '../../Features/home/presentation/pages/words_page.dart';

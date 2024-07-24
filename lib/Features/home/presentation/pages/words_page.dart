@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/widgets/default_no_data_found.dart';
 import '../../../../core/widgets/default_search_box.dart';
+import '../../../../core/widgets/default_text.dart';
 import '../cubit/home_cubit.dart';
 
 class WordsPage extends StatefulWidget {
@@ -37,6 +38,21 @@ class _WordsPageState extends State<WordsPage> {
               onChanged: (value){
                 HomeCubit.instance.searchForWordsOnline(searchController.text);
               },
+            ),
+            SizedBox(height: 14.h,),
+            Row(
+              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                DefaultText(
+                  text: "Count ",
+                  themeStyle: Theme.of(context).textTheme.labelMedium,
+                ),
+                SizedBox(width: 4.w,),
+                DefaultText(
+                  text: HomeCubit.instance.searchWordsListOnline.isNotEmpty ? "${HomeCubit.instance.searchWordsListOnline.length}" : "${HomeCubit.instance.wordsDataOnlineList.length}",
+                  themeStyle: Theme.of(context).textTheme.labelMedium,
+                ),
+              ],
             ),
             SizedBox(height: 14.h,),
             Expanded(

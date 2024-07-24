@@ -35,7 +35,7 @@ class _CardSentenceWidgetState extends State<CardSentenceWidget> {
               fontWeight: FontWeight.w600
             ),
           ),
-          SizedBox(height: 12.h,),
+          SizedBox(height: 6.h,),
           Directionality(
             textDirection: TextDirection.rtl,
             child: Row(

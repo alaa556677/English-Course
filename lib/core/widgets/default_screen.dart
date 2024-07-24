@@ -9,6 +9,7 @@ class DefaultScreen extends StatefulWidget{
   final Widget body;
   final Widget? bottomNavigationBar;
   final Widget? floatingActionButton;
+  final Widget? counter;
   final String title;
   final  GlobalKey<ScaffoldState>? scaffoldKey;
 
@@ -16,6 +17,7 @@ class DefaultScreen extends StatefulWidget{
     this.backgroundColor,
     this.bottomNavigationBar,
     this.floatingActionButton,
+    this.counter,
     required this.body,
     required this.title,
     this.scaffoldKey
@@ -51,6 +53,9 @@ class _DefaultScreenState extends State<DefaultScreen> {
               text: widget.title,
               themeStyle: Theme.of(context).textTheme.labelLarge,
             ),
+            actions: [
+              widget.counter ?? Container(),
+            ],
           ),
           drawer: const Drawer(),
           bottomNavigationBar: widget.bottomNavigationBar,
