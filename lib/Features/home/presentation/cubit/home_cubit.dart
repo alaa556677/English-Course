@@ -97,7 +97,6 @@ class HomeCubit extends Cubit<HomeStates> {
       sentenceDataTableOnline.doc().set({
         'sentence': text,
         'translate': translate,
-        'uid': FirebaseFirestore.instance.collection("sentenceData").doc().id
       }).then((value){
         getSentencesOnline();
       });
@@ -114,7 +113,6 @@ class HomeCubit extends Cubit<HomeStates> {
       wordDataTableOnline.add({
         'word': text,
         'translate': translate,
-        'uid': FirebaseAuth.instance.currentUser?.uid
       }).then((value){
         getWordsOnline();
       });
@@ -125,14 +123,17 @@ class HomeCubit extends Cubit<HomeStates> {
   }
 ////////////////////////////////////////////////////////////////////////////////
   List <SentenceDataEntity> sentencesDataOnlineList = [];
+  List <String> documentIdSentence = [];
   getSentencesOnline () async {
     emit(GetSentencesOnlineLoading());
     sentencesDataOnlineList.clear();
+    documentIdSentence.clear();
     await FirebaseFirestore.instance.collection('sentenceData').get().then((value){
       for(var i in value.docs){
         sentencesDataOnlineList.add(SentenceDataEntity.fromJson(i.data()));
+        documentIdSentence.add(i.id);
       }
-      sentencesDataOnlineList.sort((a, b) => a.sentence.toLowerCase().compareTo(b.sentence.toLowerCase()));
+      // sentencesDataOnlineList.sort((a, b) => a.sentence.toLowerCase().compareTo(b.sentence.toLowerCase()));
       // if(sentencesDataOnlineList.isNotEmpty){
       //   insertData("sentence");
       // }
@@ -144,14 +145,17 @@ class HomeCubit extends Cubit<HomeStates> {
   }
 ////////////////////////////////////////////////////////////////////////////////
   List <WordsDataEntity> wordsDataOnlineList = [];
+  List <String> documentIdWord = [];
   getWordsOnline () async {
     emit(GetWordsOnlineLoading());
     wordsDataOnlineList.clear();
+    documentIdWord.clear();
     await FirebaseFirestore.instance.collection('wordData').get().then((value){
       for(var i in value.docs){
         wordsDataOnlineList.add(WordsDataEntity.fromJson(i.data()));
+        documentIdWord.add(i.id);
       }
-      wordsDataOnlineList.sort((a, b) => a.word.toLowerCase().compareTo(b.word.toLowerCase()));
+      // wordsDataOnlineList.sort((a, b) => a.word.toLowerCase().compareTo(b.word.toLowerCase()));
       emit(GetWordsOnlineSuccess());
     }).catchError((error){
       debugPrint('error ${error.toString()}');
@@ -182,7 +186,12 @@ class HomeCubit extends Cubit<HomeStates> {
   deleteDocument(String collection, String docId) async {
     try {
       emit(DeleteDocumentLoading());
-      await FirebaseFirestore.instance.collection(collection).doc("l2TEQTcKKKoMAlfFIYYz").delete().then((value){
+      await FirebaseFirestore.instance.collection(collection).doc(docId).delete().then((value){
+        if(collection == "sentenceData"){
+          getSentencesOnline();
+        }else if (collection == "wordData"){
+          getWordsOnline();
+        }
         emit(DeleteDocumentSuccess());
       }).catchError((error){
         emit(DeleteDocumentError());

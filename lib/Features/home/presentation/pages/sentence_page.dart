@@ -62,25 +62,26 @@ class _SentencePageState extends State<SentencePage> {
             Expanded(
               child: HomeCubit.instance.searchSentenceListOnline.isNotEmpty ? ListView.separated(
               // child: false ? ListView.separated(
-                  itemBuilder: (context, index) => Dismissible(
-                    key:  Key(UniqueKey().toString()),
-                    direction: DismissDirection.endToStart,
-                    onDismissed: (direction){
-                      HomeCubit.instance.deleteDocument("sentenceData", HomeCubit.instance.searchSentenceListOnline[index].uid);
-                    },
-                    child: CardSentenceWidget(
-                      englishText: HomeCubit.instance.searchSentenceListOnline[index].sentence,
-                      arabicText: HomeCubit.instance.searchSentenceListOnline[index].translate,
-                    ),
+                  itemBuilder: (context, index) => CardSentenceWidget(
+                    englishText: HomeCubit.instance.searchSentenceListOnline[index].sentence,
+                    arabicText: HomeCubit.instance.searchSentenceListOnline[index].translate,
                   ),
                   separatorBuilder: (context, index) => SizedBox(height: 12.h,),
                   itemCount: HomeCubit.instance.searchSentenceListOnline.length
               ) : ListView.separated(
-                  itemBuilder: (context, index) => CardSentenceWidget(
-                    // englishText: HomeCubit.instance.sentenceList[index]['sentence'],
-                    englishText: HomeCubit.instance.sentencesDataOnlineList[index].sentence,
-                    // arabicText: HomeCubit.instance.sentenceList[index]['translate'],
-                    arabicText: HomeCubit.instance.sentencesDataOnlineList[index].translate,
+                  itemBuilder: (context, index) => Dismissible(
+                    key:  Key(UniqueKey().toString()),
+                    direction: DismissDirection.endToStart,
+                    onDismissed: (direction){
+                      debugPrint("alaaaaaa ${HomeCubit.instance.documentIdSentence[index]}");
+                      HomeCubit.instance.deleteDocument("sentenceData", HomeCubit.instance.documentIdSentence[index]);
+                    },
+                    child: CardSentenceWidget(
+                      // englishText: HomeCubit.instance.sentenceList[index]['sentence'],
+                      englishText: HomeCubit.instance.sentencesDataOnlineList[index].sentence,
+                      // arabicText: HomeCubit.instance.sentenceList[index]['translate'],
+                      arabicText: HomeCubit.instance.sentencesDataOnlineList[index].translate,
+                    ),
                   ),
                   separatorBuilder: (context, index) => SizedBox(height: 12.h,),
                   // itemCount: HomeCubit.instance.sentenceList.length

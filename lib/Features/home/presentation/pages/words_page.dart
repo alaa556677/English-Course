@@ -65,9 +65,17 @@ class _WordsPageState extends State<WordsPage> {
                   separatorBuilder: (context, index) => SizedBox(height: 12.h,),
                   itemCount: HomeCubit.instance.searchWordsListOnline.length
               ) : ListView.separated(
-                  itemBuilder: (context, index) => CardWordWidget(
-                    englishText: HomeCubit.instance.wordsDataOnlineList[index].word,
-                    arabicText: HomeCubit.instance.wordsDataOnlineList[index].translate,
+                  itemBuilder: (context, index) => Dismissible(
+                    key:  Key(UniqueKey().toString()),
+                    direction: DismissDirection.endToStart,
+                    onDismissed: (direction){
+                      debugPrint("alaaaaaa ${HomeCubit.instance.documentIdWord[index]}");
+                      HomeCubit.instance.deleteDocument("wordData", HomeCubit.instance.documentIdWord[index]);
+                    },
+                    child: CardWordWidget(
+                      englishText: HomeCubit.instance.wordsDataOnlineList[index].word,
+                      arabicText: HomeCubit.instance.wordsDataOnlineList[index].translate,
+                    ),
                   ),
                   separatorBuilder: (context, index) => SizedBox(height: 12.h,),
                   itemCount: HomeCubit.instance.wordsDataOnlineList.length
