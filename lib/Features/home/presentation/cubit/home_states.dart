@@ -30,3 +30,7 @@ class GetSentencesOnlineError extends HomeStates{}
 class GetWordsOnlineLoading extends HomeStates{}
 class GetWordsOnlineSuccess extends HomeStates{}
 class GetWordsOnlineError extends HomeStates{}
+
+class DeleteDocumentLoading extends HomeStates{}
+class DeleteDocumentSuccess extends HomeStates{}
+class DeleteDocumentError extends HomeStates{}

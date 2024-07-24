@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:english/Features/home/presentation/cubit/home_states.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/shared/sql.dart';
@@ -93,9 +94,10 @@ class HomeCubit extends Cubit<HomeStates> {
   insertSentenceOnline (String text, String translate){
     emit(InsertSentenceOnlineLoading());
     try{
-      sentenceDataTableOnline.add({
+      sentenceDataTableOnline.doc().set({
         'sentence': text,
         'translate': translate,
+        'uid': FirebaseFirestore.instance.collection("sentenceData").doc().id
       }).then((value){
         getSentencesOnline();
       });
@@ -112,6 +114,7 @@ class HomeCubit extends Cubit<HomeStates> {
       wordDataTableOnline.add({
         'word': text,
         'translate': translate,
+        'uid': FirebaseAuth.instance.currentUser?.uid
       }).then((value){
         getWordsOnline();
       });
@@ -174,5 +177,18 @@ class HomeCubit extends Cubit<HomeStates> {
       searchWordsListOnline.addAll(wordsDataOnlineList.where((element) => element.word.toLowerCase().contains(text.toLowerCase())));
     }
     emit(SearchEndState());
+  }
+////////////////////////////////////////////////////////////////////////////////
+  deleteDocument(String collection, String docId) async {
+    try {
+      emit(DeleteDocumentLoading());
+      await FirebaseFirestore.instance.collection(collection).doc("l2TEQTcKKKoMAlfFIYYz").delete().then((value){
+        emit(DeleteDocumentSuccess());
+      }).catchError((error){
+        emit(DeleteDocumentError());
+      });
+    } catch (e) {
+      emit(DeleteDocumentError());
+    }
   }
 }
