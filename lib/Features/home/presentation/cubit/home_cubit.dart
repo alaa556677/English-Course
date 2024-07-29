@@ -133,7 +133,7 @@ class HomeCubit extends Cubit<HomeStates> {
         'interview': text,
         'translate': translate,
       }).then((value){
-
+        getInterviewOnline();
       });
       emit(InsertInterviewOnlineSuccess());
     } catch (e){

@@ -19,6 +19,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
 
   var scaffoldKey = GlobalKey <ScaffoldState> ();
+  var formKey = GlobalKey <FormState> ();
   TextEditingController words = TextEditingController();
   TextEditingController translate = TextEditingController();
   var inputType = "word";
@@ -66,58 +67,73 @@ class _HomePageState extends State<HomePage> {
                     return SingleChildScrollView(
                       child: Padding(
                         padding: EdgeInsetsDirectional.symmetric(horizontal: 12.w, vertical: 16.h),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            ChatTextFormField(
-                              controller: words,
-                              hintText: 'word',
-                              label: "The words",
-                            ),
-                            SizedBox(height: 20.h,),
-                            ChatTextFormField(
-                              controller: translate,
-                              hintText: 'translate',
-                              label: "The translate",
-                            ),
-                            SizedBox(height: 20.h,),
-                            DefaultText(
-                              text: "Input Type",
-                              themeStyle: Theme.of(context).textTheme.labelMedium!.copyWith(
-                                  color: AppColors.blackColor,
+                        child: Form(
+                          key: formKey,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              ChatTextFormField(
+                                controller: words,
+                                hintText: 'word',
+                                label: "The words",
+                                validator: (value){
+                                  if(value!.isEmpty){
+                                    return "Required";
+                                  }
+                                  return null;
+                                },
                               ),
-                            ),
-                            SizedBox(height: 10.h,),
-                            DropdownButtonFormField(
-                              isExpanded: true,
-                              value: inputType,
-                              onChanged: (val){
-                                setState(() {
-                                  inputType = val!;
-                                });
-                              },
-                              decoration: InputDecoration(
-                                  contentPadding: const EdgeInsets.symmetric(horizontal: 10),
-                                  constraints: const BoxConstraints(maxHeight: 56),
-                                  filled: true,
-                                  fillColor: Theme.of(context).cardColor,
-                                  border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                      borderSide: BorderSide(color: AppColors.blackColor)
-                                  )
+                              SizedBox(height: 20.h,),
+                              ChatTextFormField(
+                                controller: translate,
+                                hintText: 'translate',
+                                label: "The translate",
+                                validator: (value){
+                                  if(value!.isEmpty){
+                                    return "Required";
+                                  }
+                                  return null;
+                                },
                               ),
-                              items: ["word", "sentence"].map((e) => DropdownMenuItem(
-                                  value: e,
-                                  child: DefaultText(
-                                    text: e,
-                                    themeStyle: Theme.of(context).textTheme.labelMedium!.copyWith(
-                                        color: AppColors.blackColor
-                                    ),
-                                  ))
-                              ).toList(),
-                            ),
-                          ],
+                              SizedBox(height: 20.h,),
+                              DefaultText(
+                                text: "Input Type",
+                                themeStyle: Theme.of(context).textTheme.labelMedium!.copyWith(
+                                    color: AppColors.blackColor,
+                                ),
+                              ),
+                              SizedBox(height: 10.h,),
+                              DropdownButtonFormField(
+                                isExpanded: true,
+                                value: inputType,
+                                onChanged: (val){
+                                  setState(() {
+                                    inputType = val!;
+                                  });
+                                },
+                                decoration: InputDecoration(
+                                    contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+                                    constraints: const BoxConstraints(maxHeight: 56),
+                                    filled: true,
+                                    fillColor: Theme.of(context).cardColor,
+                                    border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                        borderSide: BorderSide(color: AppColors.blackColor)
+                                    )
+                                ),
+                                items: ["word", "sentence", "interview"].map((e) => DropdownMenuItem(
+                                    value: e,
+                                    child: DefaultText(
+                                      text: e,
+                                      themeStyle: Theme.of(context).textTheme.labelMedium!.copyWith(
+                                          color: AppColors.blackColor
+                                      ),
+                                    ))
+                                ).toList(),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     );
@@ -131,15 +147,19 @@ class _HomePageState extends State<HomePage> {
                 words.clear();
                 translate.clear();
               }else{
-                if(inputType == "word"){
-                  HomeCubit.instance.insertWordOnline(words.text, translate.text);
-                }else if (inputType == "sentence"){
-                  HomeCubit.instance.insertSentenceOnline(words.text, translate.text);
+                if(formKey.currentState!.validate()){
+                  if(inputType == "word"){
+                    HomeCubit.instance.insertWordOnline(words.text, translate.text);
+                  }else if (inputType == "sentence"){
+                    HomeCubit.instance.insertSentenceOnline(words.text, translate.text);
+                  }else if(inputType == "interview"){
+                    HomeCubit.instance.insertInterviewOnline(words.text, translate.text);
+                  }
+                  // HomeCubit.instance.insertData(words.text, translate.text, inputType);
+                  Navigator.pop(context);
+                  words.clear();
+                  translate.clear();
                 }
-                // HomeCubit.instance.insertData(words.text, translate.text, inputType);
-                Navigator.pop(context);
-                words.clear();
-                translate.clear();
               }
             },
             backgroundColor: AppColors.blackColor.withOpacity(.7),

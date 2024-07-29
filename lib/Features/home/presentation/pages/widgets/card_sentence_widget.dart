@@ -40,11 +40,13 @@ class _CardSentenceWidgetState extends State<CardSentenceWidget> {
             textDirection: TextDirection.rtl,
             child: Row(
               children: [
-                DefaultText(
-                  text: widget.arabicText,
-                  themeStyle: Theme.of(context).textTheme.labelMedium!.copyWith(
-                    color: AppColors.blackColor,
-                    fontWeight: FontWeight.w600
+                Expanded(
+                  child: DefaultText(
+                    text: widget.arabicText,
+                    themeStyle: Theme.of(context).textTheme.labelMedium!.copyWith(
+                      color: AppColors.blackColor,
+                      fontWeight: FontWeight.w600
+                    ),
                   ),
                 ),
               ],
