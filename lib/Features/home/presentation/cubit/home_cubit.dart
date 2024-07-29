@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/shared/sql.dart';
 import '../../../../main.dart';
+import '../../domain/entity/interview_entity.dart';
 import '../../domain/entity/sentence_entity.dart';
 import '../../domain/entity/words_entity.dart';
 
@@ -19,12 +20,12 @@ class HomeCubit extends Cubit<HomeStates> {
   bool isBottomSheetShown = true;
   List <Map> sentenceList = [];
   List <Map> wordsList = [];
-////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////  change between pages
   changeIndex(int index){
     currentNumber = index;
     emit(ChangeIndexState());
   }
-////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////  insert data offline
   insertData(String inputType) async {
     emit(InsertDataLoading());
     database.myDeleteDatabase();
@@ -52,7 +53,7 @@ class HomeCubit extends Cubit<HomeStates> {
       emit(InsertDataError());
     }
   }
-// ////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////////////////////////////////////  read data offline
   readData(int index) async {
     try{
       emit(ReadDataLoading());
@@ -68,7 +69,7 @@ class HomeCubit extends Cubit<HomeStates> {
       emit(ReadDataError());
     }
   }
-////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////  search fo sentence offline
   List <Map> searchSentenceData = [];
   searchForSentence (String text) {
     emit(SearchStarting());
@@ -78,7 +79,7 @@ class HomeCubit extends Cubit<HomeStates> {
     }
     emit(SearchEndState());
   }
-////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////  search foe words offline
   List <Map> searchWordData = [];
   searchForWord (String text) {
     emit(SearchStarting());
@@ -90,6 +91,7 @@ class HomeCubit extends Cubit<HomeStates> {
   }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// online data
+////////////////////////////////////////////////////////////////////////////////  insert sentence online
   CollectionReference sentenceDataTableOnline = FirebaseFirestore.instance.collection('sentenceData');
   insertSentenceOnline (String text, String translate){
     emit(InsertSentenceOnlineLoading());
@@ -105,7 +107,7 @@ class HomeCubit extends Cubit<HomeStates> {
       emit(InsertSentenceOnlineError());
     }
   }
-////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////  insert words online
   CollectionReference wordDataTableOnline = FirebaseFirestore.instance.collection('wordData');
   insertWordOnline (String text, String translate){
     emit(InsertWordOnlineLoading());
@@ -121,7 +123,25 @@ class HomeCubit extends Cubit<HomeStates> {
       emit(InsertWordOnlineError());
     }
   }
-////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////  insert interview online
+  CollectionReference interviewDataOnline = FirebaseFirestore.instance.collection('interviewData');
+  insertInterviewOnline (String text, String translate){
+    emit(InsertInterviewOnlineLoading());
+    try{
+      interviewDataOnline.add({
+        'interview': text,
+        'translate': translate,
+      }).then((value){
+
+      });
+      emit(InsertInterviewOnlineSuccess());
+    } catch (e){
+      emit(InsertInterviewOnlineError());
+    }
+  }
+
+////////////////////////////////////////////////////////////////////////////////  get sentence online data
   List <SentenceDataEntity> sentencesDataOnlineList = [];
   List <String> documentIdSentence = [];
   getSentencesOnline () async {
@@ -133,7 +153,7 @@ class HomeCubit extends Cubit<HomeStates> {
         sentencesDataOnlineList.add(SentenceDataEntity.fromJson(i.data()));
         documentIdSentence.add(i.id);
       }
-      // sentencesDataOnlineList.sort((a, b) => a.sentence.toLowerCase().compareTo(b.sentence.toLowerCase()));
+      sentencesDataOnlineList.sort((a, b) => a.sentence.toLowerCase().compareTo(b.sentence.toLowerCase()));
       // if(sentencesDataOnlineList.isNotEmpty){
       //   insertData("sentence");
       // }
@@ -143,7 +163,7 @@ class HomeCubit extends Cubit<HomeStates> {
       emit(GetSentencesOnlineError());
     });
   }
-////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////  get words online data
   List <WordsDataEntity> wordsDataOnlineList = [];
   List <String> documentIdWord = [];
   getWordsOnline () async {
@@ -155,14 +175,35 @@ class HomeCubit extends Cubit<HomeStates> {
         wordsDataOnlineList.add(WordsDataEntity.fromJson(i.data()));
         documentIdWord.add(i.id);
       }
-      // wordsDataOnlineList.sort((a, b) => a.word.toLowerCase().compareTo(b.word.toLowerCase()));
+      wordsDataOnlineList.sort((a, b) => a.word.toLowerCase().compareTo(b.word.toLowerCase()));
       emit(GetWordsOnlineSuccess());
     }).catchError((error){
       debugPrint('error ${error.toString()}');
       emit(GetWordsOnlineError());
     });
   }
-////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////  get interview online data
+  List <InterviewDataEntity> interviewDataOnlineList = [];
+  List <String> documentIdInterview = [];
+  getInterviewOnline () async {
+    emit(GetInterviewOnlineLoading());
+    interviewDataOnlineList.clear();
+    documentIdInterview.clear();
+    await FirebaseFirestore.instance.collection('interviewData').get().then((value){
+      for(var i in value.docs){
+        interviewDataOnlineList.add(InterviewDataEntity.fromJson(i.data()));
+        documentIdInterview.add(i.id);
+      }
+      interviewDataOnlineList.sort((a, b) => a.interview.toLowerCase().compareTo(b.interview.toLowerCase()));
+      emit(GetInterviewsOnlineSuccess());
+    }).catchError((error){
+      debugPrint('error ${error.toString()}');
+      emit(GetInterviewsOnlineError());
+    });
+  }
+
+//////////////////////////////////////////////////////////////////////////////// search sentence online
   List <SentenceDataEntity> searchSentenceListOnline = [];
   searchForSentenceOnline (String text) {
     emit(SearchStarting());
@@ -172,7 +213,8 @@ class HomeCubit extends Cubit<HomeStates> {
     }
     emit(SearchEndState());
   }
-////////////////////////////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////////////////////////////////// search words online
   List <WordsDataEntity> searchWordsListOnline = [];
   searchForWordsOnline (String text) {
     emit(SearchStarting());
@@ -182,7 +224,19 @@ class HomeCubit extends Cubit<HomeStates> {
     }
     emit(SearchEndState());
   }
-////////////////////////////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////////////////////////////////// search words online
+  List <InterviewDataEntity> searchInterviewListOnline = [];
+  searchForInterviewOnline (String text) {
+    emit(SearchStarting());
+    searchInterviewListOnline.clear();
+    if(text.isNotEmpty){
+      searchInterviewListOnline.addAll(interviewDataOnlineList.where((element) => element.interview.toLowerCase().contains(text.toLowerCase())));
+    }
+    emit(SearchEndState());
+  }
+
+//////////////////////////////////////////////////////////////////////////////// delete
   deleteDocument(String collection, String docId) async {
     try {
       emit(DeleteDocumentLoading());

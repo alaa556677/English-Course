@@ -71,10 +71,10 @@ class _SentencePageState extends State<SentencePage> {
               ) : ListView.separated(
                   itemBuilder: (context, index) => Dismissible(
                     key:  Key(UniqueKey().toString()),
-                    direction: DismissDirection.endToStart,
+                    direction: DismissDirection.none,
                     onDismissed: (direction){
                       debugPrint("alaaaaaa ${HomeCubit.instance.documentIdSentence[index]}");
-                      HomeCubit.instance.deleteDocument("sentenceData", HomeCubit.instance.documentIdSentence[index]);
+                      // HomeCubit.instance.deleteDocument("sentenceData", HomeCubit.instance.documentIdSentence[index]);
                     },
                     child: CardSentenceWidget(
                       // englishText: HomeCubit.instance.sentenceList[index]['sentence'],

@@ -9,19 +9,19 @@ import '../../../../core/widgets/default_search_box.dart';
 import '../../../../core/widgets/default_text.dart';
 import '../cubit/home_cubit.dart';
 
-class WordsPage extends StatefulWidget {
-  const WordsPage({super.key});
+class InterviewPage extends StatefulWidget {
+  const InterviewPage({super.key});
   @override
-  State<WordsPage> createState() => _WordsPageState();
+  State<InterviewPage> createState() => _InterviewPageState();
 }
 
-class _WordsPageState extends State<WordsPage> {
+class _InterviewPageState extends State<InterviewPage> {
 
   TextEditingController searchController = TextEditingController();
   @override
   void initState() {
     // HomeCubit.instance.readData(1);
-    HomeCubit.instance.getWordsOnline();
+    HomeCubit.instance.getInterviewOnline();
     super.initState();
   }
 
@@ -30,13 +30,13 @@ class _WordsPageState extends State<WordsPage> {
     return BlocConsumer <HomeCubit, HomeStates> (
       listener: (context, state){},
       builder: (context, state) {
-        return state is GetWordsOnlineLoading ? const Center(child: CircularProgressIndicator(),) : HomeCubit.instance.wordsDataOnlineList.isEmpty ? const NotFoundPage(label: "No Data",) : Column(
+        return state is GetInterviewOnlineLoading ? const Center(child: CircularProgressIndicator(),) : HomeCubit.instance.interviewDataOnlineList.isEmpty ? const NotFoundPage(label: "No Data",) : Column(
           children: [
             SearchTextForm(
               searchController: searchController,
               radius: 12,
               onChanged: (value){
-                HomeCubit.instance.searchForWordsOnline(searchController.text);
+                HomeCubit.instance.searchForInterviewOnline(searchController.text);
               },
             ),
             SizedBox(height: 14.h,),
@@ -49,21 +49,21 @@ class _WordsPageState extends State<WordsPage> {
                 ),
                 SizedBox(width: 4.w,),
                 DefaultText(
-                  text: HomeCubit.instance.searchWordsListOnline.isNotEmpty ? "${HomeCubit.instance.searchWordsListOnline.length}" : "${HomeCubit.instance.wordsDataOnlineList.length}",
+                  text: HomeCubit.instance.searchInterviewListOnline.isNotEmpty ? "${HomeCubit.instance.searchInterviewListOnline.length}" : "${HomeCubit.instance.interviewDataOnlineList.length}",
                   themeStyle: Theme.of(context).textTheme.labelMedium,
                 ),
               ],
             ),
             SizedBox(height: 14.h,),
             Expanded(
-              child: HomeCubit.instance.searchWordsListOnline.isNotEmpty ? ListView.separated(
-              // child: false ? ListView.separated(
-                  itemBuilder: (context, index) => CardWordWidget(
-                    englishText: HomeCubit.instance.searchWordsListOnline[index].word,
-                    arabicText: HomeCubit.instance.searchWordsListOnline[index].translate,
+              child: HomeCubit.instance.searchInterviewListOnline.isNotEmpty ? ListView.separated(
+                // child: false ? ListView.separated(
+                  itemBuilder: (context, index) => CardSentenceWidget(
+                    englishText: HomeCubit.instance.searchInterviewListOnline[index].interview,
+                    arabicText: HomeCubit.instance.searchInterviewListOnline[index].translate,
                   ),
                   separatorBuilder: (context, index) => SizedBox(height: 12.h,),
-                  itemCount: HomeCubit.instance.searchWordsListOnline.length
+                  itemCount: HomeCubit.instance.searchInterviewListOnline.length
               ) : ListView.separated(
                   itemBuilder: (context, index) => Dismissible(
                     key:  Key(UniqueKey().toString()),
@@ -72,13 +72,13 @@ class _WordsPageState extends State<WordsPage> {
                       debugPrint("alaaaaaa ${HomeCubit.instance.documentIdWord[index]}");
                       // HomeCubit.instance.deleteDocument("wordData", HomeCubit.instance.documentIdWord[index]);
                     },
-                    child: CardWordWidget(
-                      englishText: HomeCubit.instance.wordsDataOnlineList[index].word,
-                      arabicText: HomeCubit.instance.wordsDataOnlineList[index].translate,
+                    child: CardSentenceWidget(
+                      englishText: HomeCubit.instance.interviewDataOnlineList[index].interview,
+                      arabicText: HomeCubit.instance.interviewDataOnlineList[index].translate,
                     ),
                   ),
                   separatorBuilder: (context, index) => SizedBox(height: 12.h,),
-                  itemCount: HomeCubit.instance.wordsDataOnlineList.length
+                  itemCount: HomeCubit.instance.interviewDataOnlineList.length
               ),
             ),
           ],

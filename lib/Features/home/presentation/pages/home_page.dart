@@ -42,6 +42,7 @@ class _HomePageState extends State<HomePage> {
             items: const [
               BottomNavigationBarItem(icon: Icon(Icons.book_outlined), label: "Sentence"),
               BottomNavigationBarItem(icon: Icon(Icons.palette_rounded), label: "Words"),
+              BottomNavigationBarItem(icon: Icon(Icons.work), label: "Interview"),
             ],
             backgroundColor: AppColors.blackColor.withOpacity(.5),
             type: BottomNavigationBarType.fixed,

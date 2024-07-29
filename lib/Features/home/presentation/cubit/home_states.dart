@@ -23,6 +23,10 @@ class InsertWordOnlineLoading extends HomeStates{}
 class InsertWordOnlineSuccess extends HomeStates{}
 class InsertWordOnlineError extends HomeStates{}
 
+class InsertInterviewOnlineLoading extends HomeStates{}
+class InsertInterviewOnlineSuccess extends HomeStates{}
+class InsertInterviewOnlineError extends HomeStates{}
+
 class GetSentencesOnlineLoading extends HomeStates{}
 class GetSentencesOnlineSuccess extends HomeStates{}
 class GetSentencesOnlineError extends HomeStates{}
@@ -30,6 +34,10 @@ class GetSentencesOnlineError extends HomeStates{}
 class GetWordsOnlineLoading extends HomeStates{}
 class GetWordsOnlineSuccess extends HomeStates{}
 class GetWordsOnlineError extends HomeStates{}
+
+class GetInterviewOnlineLoading extends HomeStates{}
+class GetInterviewsOnlineSuccess extends HomeStates{}
+class GetInterviewsOnlineError extends HomeStates{}
 
 class DeleteDocumentLoading extends HomeStates{}
 class DeleteDocumentSuccess extends HomeStates{}
