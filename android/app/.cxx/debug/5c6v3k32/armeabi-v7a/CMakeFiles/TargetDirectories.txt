@@ -1,0 +1,2 @@
+E:/udy_tech/projects/english_course/android/app/.cxx/debug/5c6v3k32/armeabi-v7a/CMakeFiles/edit_cache.dir
+E:/udy_tech/projects/english_course/android/app/.cxx/debug/5c6v3k32/armeabi-v7a/CMakeFiles/rebuild_cache.dir

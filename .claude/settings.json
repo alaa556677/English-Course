@@ -1,0 +1,28 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/Users/A-ONE/fvm/versions/3.41.4/packages/flutter_tools/gradle/src/main/kotlin/**)",
+      "Bash(fvm flutter *)",
+      "Bash(~/.fvm/bin/fvm flutter *)",
+      "Bash(where fvm *)",
+      "Read(//c/Users/A-ONE/fvm/**)",
+      "Read(//c/Users/A-ONE/AppData/Local/**)",
+      "Bash(\"/c/Users/A-ONE/AppData/Local/Pub/Cache/bin/fvm.bat\" flutter *)",
+      "Bash(taskkill /F /IM java.exe)",
+      "Bash(where flutter *)",
+      "Bash(/c/Users/A-ONE/fvm/default/bin/flutter build *)",
+      "Bash(git config *)",
+      "Bash(git push *)",
+      "Bash(ssh-keygen -t ed25519 -C alaabaker166@gmail.com -f __TRACKED_VAR__/.ssh/id_ed25519 -N '')",
+      "Read(//c/Users/A-ONE/.ssh/**)",
+      "Bash(ssh -T git@github.com)",
+      "Bash(git remote *)",
+      "Bash(git rm *)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git checkout *)",
+      "Bash(git commit *)",
+      "Bash(git branch *)"
+    ]
+  }
+}
